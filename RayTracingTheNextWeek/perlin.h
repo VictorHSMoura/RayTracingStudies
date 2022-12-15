@@ -28,6 +28,10 @@ class perlin {
         double v = p.y() - floor(p.y());
         double w = p.z() - floor(p.z());
 
+        u *= u * (3 - 2 * u);
+        v *= v * (3 - 2 * v);
+        w *= w * (3 - 2 * w);
+
         int i = static_cast<int>(floor(p.x()));
         int j = static_cast<int>(floor(p.y()));
         int k = static_cast<int>(floor(p.z()));
