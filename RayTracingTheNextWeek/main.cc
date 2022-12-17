@@ -8,23 +8,23 @@
 #include "rtweekend.h"
 #include "sphere.h"
 
-color ray_color(const ray& r, const color& background, const hittable& world, int depth) {
+color ray_color(const ray& r, const color& background, const hittable& world,
+                int depth) {
     hit_record rec;
 
     // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0) return color(0, 0, 0);
 
     // If the ray hits nothing, return the background color.
-    if (!world.hit(r, 0.001, infinity, rec))
-        return background;
+    if (!world.hit(r, 0.001, infinity, rec)) return background;
 
     ray scattered;
     color attenuation;
     color emitted = rec.mat_ptr->emitted(rec.u, rec.v, rec.p);
 
-    if (!rec.mat_ptr->scatter(r, rec, attenuation, scattered))
-        return emitted;
-    return emitted + attenuation * ray_color(scattered, background, world, depth - 1);
+    if (!rec.mat_ptr->scatter(r, rec, attenuation, scattered)) return emitted;
+    return emitted +
+           attenuation * ray_color(scattered, background, world, depth - 1);
 }
 
 hittable_list random_scene() {
@@ -98,9 +98,11 @@ hittable_list two_perlin_spheres() {
     hittable_list objects;
 
     auto pertext = make_shared<noise_texture>(4);
-    objects.add(make_shared<sphere>(point3(0, -1000, 0), 1000, make_shared<lambertian>(pertext)));
-    objects.add(make_shared<sphere>(point3(0, 2, 0), 2, make_shared<lambertian>(pertext)));
-    
+    objects.add(make_shared<sphere>(point3(0, -1000, 0), 1000,
+                                    make_shared<lambertian>(pertext)));
+    objects.add(make_shared<sphere>(point3(0, 2, 0), 2,
+                                    make_shared<lambertian>(pertext)));
+
     return objects;
 }
 
