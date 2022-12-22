@@ -96,8 +96,8 @@ bool xz_rect::hit(const ray &r, double t_min, double t_max,
 bool xz_rect::bounding_box(double time0, double time1, aabb &output_box) const {
     // The bounding box must have non-zero width in each dimension, so pad the Y
     // dimension a small amount.
-    double z_pad = 1e-4;
-    output_box = aabb(point3(x0, k - z_pad, z0), point3(x1, k + z_pad, z1));
+    double y_pad = 1e-4;
+    output_box = aabb(point3(x0, k - y_pad, z0), point3(x1, k + y_pad, z1));
     return true;
 }
 // END XZ RECT
@@ -145,8 +145,8 @@ bool yz_rect::hit(const ray &r, double t_min, double t_max,
 bool yz_rect::bounding_box(double time0, double time1, aabb &output_box) const {
     // The bounding box must have non-zero width in each dimension, so pad the X
     // dimension a small amount.
-    double z_pad = 1e-4;
-    output_box = aabb(point3(k - z_pad, y0, z0), point3(k + z_pad, y1, z1));
+    double x_pad = 1e-4;
+    output_box = aabb(point3(k - x_pad, y0, z0), point3(k + x_pad, y1, z1));
     return true;
 }
 // END YZ RECT
