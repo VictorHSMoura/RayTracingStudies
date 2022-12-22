@@ -43,4 +43,12 @@ bool xy_rect::hit(const ray &r, double t_min, double t_max,
     return true;
 }
 
+bool xy_rect::bounding_box(double time0, double time1, aabb &output_box) const {
+    // The bounding box must have non-zero width in each dimension, so pad the Z
+    // dimension a small amount.
+    double z_pad = 1e-4;
+    output_box = aabb(point3(x0, y0, k - z_pad), point3(x1, y1, k + z_pad));
+    return true;
+}
+
 #endif  // AARECT_H
