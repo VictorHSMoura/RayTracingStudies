@@ -131,12 +131,30 @@ hittable_list simple_light() {
     return objects;
 }
 
+hittable_list cornell_box() {
+    hittable_list objects;
+
+    auto red = make_shared<lambertian>(color(.65, .05, .05));
+    auto white = make_shared<lambertian>(color(.73, .73, .73));
+    auto green = make_shared<lambertian>(color(.12, .45, .15));
+    auto light = make_shared<diffuse_light>(color(15, 15, 15));
+
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 555, green));
+    objects.add(make_shared<yz_rect>(0, 555, 0, 555, 0, red));
+    objects.add(make_shared<xz_rect>(213, 343, 227, 332, 554, light));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
+    objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
+    objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+
+    return objects;
+}
+
 int main() {
     // Image
-    const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 400;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int max_depth = 50;
+    auto aspect_ratio = 16.0 / 9.0;
+    int image_width = 400;
+    
+    int max_depth = 50;
 
     // World
     hittable_list world;
@@ -144,7 +162,7 @@ int main() {
     point3 lookfrom, lookat;
     double vfov = 40.0, aperture = 0.0;
     int samples_per_pixel = 100;
-    int scene_selection = 5;
+    int scene_selection = 6;
     color background(0, 0, 0);
 
     switch (scene_selection) {
@@ -184,6 +202,16 @@ int main() {
             lookat = point3(0, 2, 0);
             vfov = 20.0;
             break;
+        case 6:
+            world = cornell_box();
+            aspect_ratio = 1.0;
+            image_width = 600;
+            samples_per_pixel = 200;
+            background = color(0, 0, 0);
+            lookfrom = point3(278, 278, -800);
+            lookat = point3(278, 278, 0);
+            vfov = 40.0;
+            break;
         default:
             break;
     }
@@ -191,6 +219,7 @@ int main() {
     // Camera
     vec3 vup(0, 1, 0);
     auto dist_to_focus = 10.0;
+    int image_height = static_cast<int>(image_width / aspect_ratio);
 
     camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture,
                dist_to_focus, 0.0, 1.0);

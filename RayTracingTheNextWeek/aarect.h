@@ -35,7 +35,7 @@ bool xy_rect::hit(const ray &r, double t_min, double t_max,
 
     rec.u = (x - x0) / (x1 - x0);
     rec.v = (y - y0) / (y1 - y0);
-    rec.u = t;
+    rec.t = t;
 
     vec3 outward_normal = vec3(0, 0, 1);
     rec.set_face_normal(r, outward_normal);
@@ -84,7 +84,7 @@ bool xz_rect::hit(const ray &r, double t_min, double t_max,
 
     rec.u = (x - x0) / (x1 - x0);
     rec.v = (z - z0) / (z1 - z0);
-    rec.u = t;
+    rec.t = t;
 
     vec3 outward_normal = vec3(0, 1, 0);
     rec.set_face_normal(r, outward_normal);
@@ -133,7 +133,7 @@ bool yz_rect::hit(const ray &r, double t_min, double t_max,
 
     rec.u = (y - y0) / (y1 - y0);
     rec.v = (z - z0) / (z1 - z0);
-    rec.u = t;
+    rec.t = t;
 
     vec3 outward_normal = vec3(1, 0, 0);
     rec.set_face_normal(r, outward_normal);
@@ -143,7 +143,7 @@ bool yz_rect::hit(const ray &r, double t_min, double t_max,
 }
 
 bool yz_rect::bounding_box(double time0, double time1, aabb &output_box) const {
-    // The bounding box must have non-zero width in each dimension, so pad the Z
+    // The bounding box must have non-zero width in each dimension, so pad the X
     // dimension a small amount.
     double z_pad = 1e-4;
     output_box = aabb(point3(k - z_pad, y0, z0), point3(k + z_pad, y1, z1));
