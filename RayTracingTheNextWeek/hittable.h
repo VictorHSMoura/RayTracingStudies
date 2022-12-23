@@ -142,7 +142,8 @@ bool rotate_y::hit(const ray &r, double t_min, double t_max,
     return true;
 }
 
-bool rotate_y::bounding_box(double time0, double time1, aabb &output_box) const {
+bool rotate_y::bounding_box(double time0, double time1,
+                            aabb &output_box) const {
     output_box = bbox;
     return hasbox;
 }
