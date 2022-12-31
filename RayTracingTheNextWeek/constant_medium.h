@@ -55,7 +55,7 @@ bool constant_medium::hit(const ray& r, double t_min, double t_max,
 
     const double ray_length = r.direction().length();
     const double distance_inside_boundary = (rec2.t - rec1.t) * ray_length;
-    const auto hit_distance = neg_inv_density * log(random_double());
+    const double hit_distance = neg_inv_density * log(random_double());
 
     if (hit_distance > distance_inside_boundary) return false;
 
